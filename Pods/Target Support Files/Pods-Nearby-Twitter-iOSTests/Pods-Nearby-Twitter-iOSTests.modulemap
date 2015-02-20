@@ -1,0 +1,6 @@
+framework module Pods_Nearby_Twitter_iOSTests {
+  umbrella header "Pods-Nearby-Twitter-iOSTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

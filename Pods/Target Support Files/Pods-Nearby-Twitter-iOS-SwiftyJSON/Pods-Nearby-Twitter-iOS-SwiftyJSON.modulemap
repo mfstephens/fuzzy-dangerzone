@@ -1,0 +1,6 @@
+framework module SwiftyJSON {
+  umbrella header "Pods-Nearby-Twitter-iOS-SwiftyJSON-umbrella.h"
+
+  export *
+  module * { export * }
+}

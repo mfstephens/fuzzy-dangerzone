@@ -1,0 +1,6 @@
+framework module Pods_Nearby_Twitter_iOS {
+  umbrella header "Pods-Nearby-Twitter-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
