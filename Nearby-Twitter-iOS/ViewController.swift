@@ -95,7 +95,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //MARK: - UITableViewControllerDelegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // do stuff
+
         let tweetCellIdentifier = "TweetCellIdentifier"
         let loadMoreCellIdentifier = "LoadMoreCellIdentifier"
         
@@ -104,7 +104,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             
+            // make author's name bold
+            var attributedAuthorName : NSMutableAttributedString = NSMutableAttributedString(string: tweets[indexPath.row]["user"]["screen_name"].string!)
+            var nameLength = countElements(tweets[indexPath.row]["user"]["screen_name"].string!)
             cell.tweetAuthor.text = tweets[indexPath.row]["user"]["screen_name"].string!
+            attributedAuthorName.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(17.0), range: NSMakeRange(0, nameLength))
+            
+            
+            cell.tweetAuthor.attributedText = attributedAuthorName
             cell.tweetText.text = tweets[indexPath.row]["text"].string!
             cell.tweetLocation.text = tweets[indexPath.row]["place"]["full_name"].string!
             cell.tweetTextID = tweets[indexPath.row]["id"].double!
@@ -129,6 +136,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let hours = components.hour
                 let days = components.day
                 
+                // if the post is less than a day/hour old, don't show the day/hour value
                 if (days == 0 && hours == 0) {
                     cell.tweetRelativeTime.text = minutes.description + "m"
                 } else if (days == 0) {
