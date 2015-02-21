@@ -27,36 +27,20 @@ struct Config {
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
     let locationManager:CLLocationManager = CLLocationManager()
+    let searchBarTop : UISearchBar = UISearchBar()
     var swifter : Swifter
-
+    var tweets : [JSONValue] = []
+    @IBOutlet var tableView: UITableView!
+    
     required init(coder aDecoder: NSCoder) {
         self.swifter = Swifter(consumerKey: AuthCredentials.CONSUMER_KEY, consumerSecret: AuthCredentials.CONSUMER_SECRET, oauthToken: AuthCredentials.OAUTH_TOKEN, oauthTokenSecret: AuthCredentials.OAUTH_SECRET)
         super.init(coder: aDecoder)
     }
-    
-    func searchForTweetsAtLocation (query : String, latitude : CLLocationDegrees, longitude : CLLocationDegrees) {
-        
-        let failureHandler: ((NSError) -> Void) = {
-            error in
-            println(error.localizedDescription)
-        }
-        
-        let geocode = latitude.description + "," + longitude.description + "," + Config.RADIUS
-        
-        swifter.getSearchTweetsWithQuery(query, geocode: geocode, lang: "en", locale: "en", resultType: Config.RESULT_TYPE, count: Config.TWEET_COUNT, until: "", sinceID: "", maxID: "", includeEntities: false, callback: "", success: { (statuses, searchMetadata) -> Void in
-            
-            
-            
-                println(statuses)
-            
-            
-            }, failure: failureHandler)
-        
-    }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.titleView = self.searchBarTop;
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -72,20 +56,52 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Networking Stuff
+    func searchForTweetsAtLocation (query : String, latitude : CLLocationDegrees, longitude : CLLocationDegrees) {
+        
+        let failureHandler: ((NSError) -> Void) = {
+            error in
+            println(error.localizedDescription)
+        }
+        
+        let geocode = latitude.description + "," + longitude.description + "," + Config.RADIUS
+        
+        swifter.getSearchTweetsWithQuery(query, geocode: geocode, lang: "en", locale: "en", resultType: Config.RESULT_TYPE, count: Config.TWEET_COUNT, until: "", sinceID: "", maxID: "", includeEntities: false, callback: "", success: { (statuses, searchMetadata) -> Void in
+            
+            
+            
+            self.tweets = statuses!
+            self.tableView.reloadData()
+            
+            
+            }, failure: failureHandler)
+        
+    }
+    
     func updateTweets (latitude : CLLocationDegrees, longitude : CLLocationDegrees) {
-        println("updating tweets")
         searchForTweetsAtLocation("Kanye", latitude: latitude, longitude: longitude)
     }
     
     //MARK: - UITableViewControllerDelegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // do stuff
-        return UITableViewCell()
+        let cell:TweetTableViewCell = tableView.dequeueReusableCellWithIdentifier("TweetCellIdentifier", forIndexPath: indexPath) as TweetTableViewCell
+        
+
+        if (tweets.count != 0) {
+            cell.loadCell(tweets[indexPath.row]["user"]["screen_name"].string!, text: tweets[indexPath.row]["text"].string!, location: tweets[indexPath.row]["place"]["full_name"].string!, date: "date", profileImageURL: tweets[indexPath.row]["user"]["profile_image_url"].string!)
+        }
+        
+        return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // do more stuff
-        return 0
+        return tweets.count;
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 175
     }
     
     
@@ -94,7 +110,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var location:CLLocation = locations[locations.count-1] as CLLocation
         if (location.horizontalAccuracy > 0) {
             self.locationManager.stopUpdatingLocation()
-            println(location.coordinate)
             updateTweets(location.coordinate.latitude, longitude: location.coordinate.longitude)
         }
     }

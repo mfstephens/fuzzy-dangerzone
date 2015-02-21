@@ -10,12 +10,13 @@
 		1C6EF51955F3E657BBEBF0CB /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 261D7203151A63E8D2DAD04D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9B4A9AF1A95C60D003C23CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B4A9AE1A95C60D003C23CF /* AppDelegate.swift */; };
 		C9B4A9B11A95C60D003C23CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B4A9B01A95C60D003C23CF /* ViewController.swift */; };
-		C9B4A9B41A95C60D003C23CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9B21A95C60D003C23CF /* Main.storyboard */; };
 		C9B4A9B61A95C60D003C23CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9B51A95C60D003C23CF /* Images.xcassets */; };
 		C9B4A9B91A95C60D003C23CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9B71A95C60D003C23CF /* LaunchScreen.xib */; };
 		C9B4A9C51A95C60D003C23CF /* Nearby_Twitter_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B4A9C41A95C60D003C23CF /* Nearby_Twitter_iOSTests.swift */; };
 		C9B4A9CF1A96B450003C23CF /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9CE1A96B450003C23CF /* Podfile */; };
 		C9B4A9E71A972BF4003C23CF /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B4A9E61A972BF4003C23CF /* SwifteriOS.framework */; };
+		C9E106491A9831E10069AA6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E106481A9831E10069AA6A /* Main.storyboard */; };
+		C9E1064B1A983EEC0069AA6A /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E1064A1A983EEC0069AA6A /* TweetTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +37,6 @@
 		C9B4A9AD1A95C60D003C23CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B4A9AE1A95C60D003C23CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9B4A9B01A95C60D003C23CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C9B4A9B31A95C60D003C23CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9B4A9B51A95C60D003C23CF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9B4A9B81A95C60D003C23CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C9B4A9BE1A95C60D003C23CF /* Nearby-Twitter-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nearby-Twitter-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +44,8 @@
 		C9B4A9C41A95C60D003C23CF /* Nearby_Twitter_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nearby_Twitter_iOSTests.swift; sourceTree = "<group>"; };
 		C9B4A9CE1A96B450003C23CF /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C9B4A9E61A972BF4003C23CF /* SwifteriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifteriOS.framework; path = "../Swifter/build/Debug-iphoneos/SwifteriOS.framework"; sourceTree = "<group>"; };
+		C9E106481A9831E10069AA6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C9E1064A1A983EEC0069AA6A /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +104,7 @@
 				C9B4A9D31A96C08F003C23CF /* ViewControllers */,
 				C9B4A9D01A96B922003C23CF /* Models */,
 				C9B4A9AE1A95C60D003C23CF /* AppDelegate.swift */,
-				C9B4A9B21A95C60D003C23CF /* Main.storyboard */,
+				C9E106481A9831E10069AA6A /* Main.storyboard */,
 				C9B4A9B51A95C60D003C23CF /* Images.xcassets */,
 				C9B4A9B71A95C60D003C23CF /* LaunchScreen.xib */,
 				C9B4A9AC1A95C60D003C23CF /* Supporting Files */,
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				C9B4A9B01A95C60D003C23CF /* ViewController.swift */,
+				C9E1064A1A983EEC0069AA6A /* TweetTableViewCell.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -242,10 +245,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9B4A9B41A95C60D003C23CF /* Main.storyboard in Resources */,
 				C9B4A9B91A95C60D003C23CF /* LaunchScreen.xib in Resources */,
 				C9B4A9CF1A96B450003C23CF /* Podfile in Resources */,
 				C9B4A9B61A95C60D003C23CF /* Images.xcassets in Resources */,
+				C9E106491A9831E10069AA6A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +316,7 @@
 			files = (
 				C9B4A9B11A95C60D003C23CF /* ViewController.swift in Sources */,
 				C9B4A9AF1A95C60D003C23CF /* AppDelegate.swift in Sources */,
+				C9E1064B1A983EEC0069AA6A /* TweetTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,14 +339,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C9B4A9B21A95C60D003C23CF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C9B4A9B31A95C60D003C23CF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C9B4A9B71A95C60D003C23CF /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
