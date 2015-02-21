@@ -24,30 +24,35 @@ struct Config {
     static let RESULT_TYPE = "recent"
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UISearchBarDelegate {
     
     let locationManager:CLLocationManager = CLLocationManager()
     let searchBarTop : UISearchBar = UISearchBar()
     var swifter : Swifter
     var tweets : [JSONValue] = []
+    var currentQuery : String = ""
+    var currentLocation : CLLocation!
     @IBOutlet var tableView: UITableView!
     
     required init(coder aDecoder: NSCoder) {
         self.swifter = Swifter(consumerKey: AuthCredentials.CONSUMER_KEY, consumerSecret: AuthCredentials.CONSUMER_SECRET, oauthToken: AuthCredentials.OAUTH_TOKEN, oauthTokenSecret: AuthCredentials.OAUTH_SECRET)
+        currentLocation = nil
         super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.titleView = self.searchBarTop;
+        // search bar
+        self.navigationItem.titleView = self.searchBarTop
+        searchBarTop.showsScopeBar = true
+        searchBarTop.delegate = self
         
+        // location manager
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     
@@ -57,16 +62,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     // MARK: - Networking Stuff
-    func searchForTweetsAtLocation (query : String, latitude : CLLocationDegrees, longitude : CLLocationDegrees) {
+    func updateTable () {
         
         let failureHandler: ((NSError) -> Void) = {
             error in
             println(error.localizedDescription)
         }
         
-        let geocode = latitude.description + "," + longitude.description + "," + Config.RADIUS
+        let geocode = currentLocation.coordinate.latitude.description + "," + currentLocation.coordinate.longitude.description + "," + Config.RADIUS
         
-        swifter.getSearchTweetsWithQuery(query, geocode: geocode, lang: "en", locale: "en", resultType: Config.RESULT_TYPE, count: Config.TWEET_COUNT, until: "", sinceID: "", maxID: "", includeEntities: false, callback: "", success: { (statuses, searchMetadata) -> Void in
+        swifter.getSearchTweetsWithQuery(currentQuery, geocode: geocode, lang: "en", locale: "en", resultType: Config.RESULT_TYPE, count: Config.TWEET_COUNT, until: "", sinceID: "", maxID: "", includeEntities: false, callback: "", success: { (statuses, searchMetadata) -> Void in
             
             
             
@@ -78,8 +83,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func updateTweets (latitude : CLLocationDegrees, longitude : CLLocationDegrees) {
-        searchForTweetsAtLocation("Kanye", latitude: latitude, longitude: longitude)
+    //MARK: - UISearchBar
+    func searchBarSearchButtonClicked( searchBar: UISearchBar!)
+    {
+        currentQuery = searchBar.text
+        searchBar.resignFirstResponder()
+        updateTable()
     }
     
     //MARK: - UITableViewControllerDelegate
@@ -104,13 +113,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 175
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        searchBarTop.resignFirstResponder()
+    }
+    
     
     //MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         var location:CLLocation = locations[locations.count-1] as CLLocation
         if (location.horizontalAccuracy > 0) {
             self.locationManager.stopUpdatingLocation()
-            updateTweets(location.coordinate.latitude, longitude: location.coordinate.longitude)
+            currentLocation = location
+            updateTable()
         }
     }
     
