@@ -24,10 +24,12 @@ struct Config {
     static let RESULT_TYPE = "recent"
 }
 
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UISearchBarDelegate {
     
     let locationManager:CLLocationManager = CLLocationManager()
     let searchBarTop : UISearchBar = UISearchBar()
+    let imageCornerRadius : CGFloat = 5
     var swifter : Swifter
     var tweets : [JSONValue] = []
     var currentQuery : String = ""
@@ -96,9 +98,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // do stuff
         let cell:TweetTableViewCell = tableView.dequeueReusableCellWithIdentifier("TweetCellIdentifier", forIndexPath: indexPath) as TweetTableViewCell
         
-
         if (tweets.count != 0) {
-            cell.loadCell(tweets[indexPath.row]["user"]["screen_name"].string!, text: tweets[indexPath.row]["text"].string!, location: tweets[indexPath.row]["place"]["full_name"].string!, date: "date", profileImageURL: tweets[indexPath.row]["user"]["profile_image_url"].string!)
+            cell.tweetAuthor.text = tweets[indexPath.row]["user"]["screen_name"].string!
+            cell.tweetText.text = tweets[indexPath.row]["text"].string!
+            cell.tweetLocation.text = tweets[indexPath.row]["place"]["full_name"].string!
+            cell.tweetTextID = tweets[indexPath.row]["id"].double!
+            cell.tweetAuthorID = tweets[indexPath.row]["user"]["id"].double!
+            
+            // set profile picture
+            let imageURL = UIImage(data: NSData(contentsOfURL: NSURL(string: tweets[indexPath.row]["user"]["profile_image_url"].string!)!)!)
+            cell.profileImageView.image = imageURL
+            cell.profileImageView.layer.cornerRadius = imageCornerRadius
+            cell.profileImageView.clipsToBounds = true
         }
         
         return cell

@@ -11,39 +11,37 @@ import UIKit
 
 
 
-class TweetTableViewCell :  UITableViewCell {
+class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate {
     
     @IBOutlet weak var profileImageView: UIImageView!
-    
     @IBOutlet weak var tweetText: UILabel!
     @IBOutlet weak var tweetAuthor: UILabel!
     @IBOutlet weak var tweetLocation: UILabel!
-    let cornerRadius : CGFloat = 5
-    
     @IBOutlet weak var replyButton: UIButton!
+    var tweetTextID : Double!
+    var tweetAuthorID : Double!
     
     @IBAction func didPressReply(sender: AnyObject) {
-        
+        var message = tweetText.text! + "\nTweet ID: " + tweetTextID.description + "\nTweet Author ID: " + tweetAuthorID.description
+        var alert : UIAlertView = UIAlertView(title: "Reply", message: message, delegate: self, cancelButtonTitle: "Done")
+        alert.show()
     }
     
-    func loadCell(author : String, text : String, location : String, date : String, profileImageURL : String) {
-        profileImageView.layer.cornerRadius = cornerRadius
-        profileImageView.clipsToBounds = true
-        tweetText.text = text
-        tweetAuthor.text = author
-        tweetLocation.text = location
-        
-        
-//        var frame : CGRect = tweetText.frame
-//        frame.size.height = tweetText.height
-//        tweetText.frame = frame
-
-        
-        tweetText.sizeToFit()
-        tweetLocation.frame.origin.y = tweetText.frame.maxY + 200
-        replyButton.frame.origin.y = tweetLocation.frame.maxY + 200
-        
-        profileImageView.image = UIImage(data: NSData(contentsOfURL: NSURL(string: profileImageURL)!)!)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        //fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
     
 }
