@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1C6EF51955F3E657BBEBF0CB /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 261D7203151A63E8D2DAD04D /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C977C2E31A9946EC00627674 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C977C2E21A9946EC00627674 /* SwifteriOS.framework */; };
+		C977C2E51A99479000627674 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C977C2E21A9946EC00627674 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9B4A9AF1A95C60D003C23CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B4A9AE1A95C60D003C23CF /* AppDelegate.swift */; };
 		C9B4A9B11A95C60D003C23CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B4A9B01A95C60D003C23CF /* ViewController.swift */; };
 		C9B4A9B61A95C60D003C23CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9B51A95C60D003C23CF /* Images.xcassets */; };
 		C9B4A9B91A95C60D003C23CF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9B71A95C60D003C23CF /* LaunchScreen.xib */; };
 		C9B4A9C51A95C60D003C23CF /* Nearby_Twitter_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B4A9C41A95C60D003C23CF /* Nearby_Twitter_iOSTests.swift */; };
 		C9B4A9CF1A96B450003C23CF /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C9B4A9CE1A96B450003C23CF /* Podfile */; };
-		C9B4A9E71A972BF4003C23CF /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B4A9E61A972BF4003C23CF /* SwifteriOS.framework */; };
 		C9E106491A9831E10069AA6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9E106481A9831E10069AA6A /* Main.storyboard */; };
 		C9E1064B1A983EEC0069AA6A /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E1064A1A983EEC0069AA6A /* TweetTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -29,10 +30,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C977C2E61A99479000627674 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C977C2E51A99479000627674 /* SwifteriOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		261D7203151A63E8D2DAD04D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A9450FF522BD055F2604F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B115B93B0D30DE6623F4F01A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		C977C2E21A9946EC00627674 /* SwifteriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifteriOS.framework; path = "../../Library/Developer/Xcode/DerivedData/Nearby-Twitter-iOS-fptxvzaacbjcrxeggcnnbodpxkmo/Build/Products/Debug-iphoneos/SwifteriOS.framework"; sourceTree = "<group>"; };
 		C9B4A9A91A95C60D003C23CF /* Nearby-Twitter-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nearby-Twitter-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B4A9AD1A95C60D003C23CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B4A9AE1A95C60D003C23CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +59,6 @@
 		C9B4A9C31A95C60D003C23CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B4A9C41A95C60D003C23CF /* Nearby_Twitter_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nearby_Twitter_iOSTests.swift; sourceTree = "<group>"; };
 		C9B4A9CE1A96B450003C23CF /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		C9B4A9E61A972BF4003C23CF /* SwifteriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifteriOS.framework; path = "../Swifter/build/Debug-iphoneos/SwifteriOS.framework"; sourceTree = "<group>"; };
 		C9E106481A9831E10069AA6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C9E1064A1A983EEC0069AA6A /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -53,7 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9B4A9E71A972BF4003C23CF /* SwifteriOS.framework in Frameworks */,
+				C977C2E31A9946EC00627674 /* SwifteriOS.framework in Frameworks */,
 				1C6EF51955F3E657BBEBF0CB /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,7 +86,7 @@
 		1835CF29E4CA1D4BD0516DC4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C9B4A9E61A972BF4003C23CF /* SwifteriOS.framework */,
+				C977C2E21A9946EC00627674 /* SwifteriOS.framework */,
 				261D7203151A63E8D2DAD04D /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -175,6 +190,7 @@
 				C9B4A9A71A95C60D003C23CF /* Resources */,
 				A889541191606664366EE065 /* Copy Pods Resources */,
 				656BD6A5D9601220C97042E1 /* Embed Pods Frameworks */,
+				C977C2E61A99479000627674 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -435,6 +451,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/Matt/Developer/Swifter/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Nearby-Twitter-iOS-fptxvzaacbjcrxeggcnnbodpxkmo/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "Nearby-Twitter-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -450,6 +467,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/Matt/Developer/Swifter/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Nearby-Twitter-iOS-fptxvzaacbjcrxeggcnnbodpxkmo/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "Nearby-Twitter-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

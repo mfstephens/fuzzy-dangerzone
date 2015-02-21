@@ -19,8 +19,8 @@ struct AuthCredentials {
 
 struct Config {
     static let RADIUS = "5mi"
-    static let TWEET_COUNT = 15
-    static let GET_TWEETS_SINCE = "2012-09-01"
+    static let TWEET_COUNT = 10
+    static let GET_TWEETS_SINCE = "2014-09-01"
     static let RESULT_TYPE = "recent"
 }
 
@@ -96,9 +96,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: - UITableViewControllerDelegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // do stuff
-        let cell:TweetTableViewCell = tableView.dequeueReusableCellWithIdentifier("TweetCellIdentifier", forIndexPath: indexPath) as TweetTableViewCell
+        let tweetCellIdentifier = "TweetCellIdentifier"
+        let loadMoreCellIdentifier = "LoadMoreCellIdentifier"
         
-        if (tweets.count != 0) {
+        if (indexPath.row != tweets.count && tweets.count != 0) {
+            let cell:TweetTableViewCell = tableView.dequeueReusableCellWithIdentifier(tweetCellIdentifier, forIndexPath: indexPath) as TweetTableViewCell
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
             cell.tweetAuthor.text = tweets[indexPath.row]["user"]["screen_name"].string!
             cell.tweetText.text = tweets[indexPath.row]["text"].string!
             cell.tweetLocation.text = tweets[indexPath.row]["place"]["full_name"].string!
@@ -110,17 +115,54 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.profileImageView.image = imageURL
             cell.profileImageView.layer.cornerRadius = imageCornerRadius
             cell.profileImageView.clipsToBounds = true
+            
+            // set relative date
+            let calendar = NSCalendar.autoupdatingCurrentCalendar()
+            calendar.timeZone = NSTimeZone.systemTimeZone()
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.timeZone = calendar.timeZone
+            dateFormatter.dateFormat = "EEE LLL d HH:mm:ss Z yyyy"
+            if let startDate = dateFormatter.dateFromString(tweets[indexPath.row]["created_at"].string!) {
+                let components = calendar.components(NSCalendarUnit.DayCalendarUnit | NSCalendarUnit.HourCalendarUnit | NSCalendarUnit.CalendarUnitMinute,
+                    fromDate: startDate, toDate: NSDate(), options: nil)
+                let minutes = components.minute
+                let hours = components.hour
+                let days = components.day
+                
+                if (days == 0 && hours == 0) {
+                    cell.tweetRelativeTime.text = minutes.description + "m"
+                } else if (days == 0) {
+                    cell.tweetRelativeTime.text = hours.description + "h " + minutes.description + "m"
+                } else {
+                    cell.tweetRelativeTime.text = days.description + "d " + hours.description + "h " + minutes.description + "m"
+                }
+            }
+            
+            return cell
+        } else if (indexPath.row == tweets.count && tweets.count == Config.TWEET_COUNT) {
+            let cell:TweetTableViewCell = tableView.dequeueReusableCellWithIdentifier(loadMoreCellIdentifier, forIndexPath: indexPath) as TweetTableViewCell
+            return cell
         }
         
+
+        // silence error message
+        let cell = UITableViewCell()
         return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // do more stuff
-        return tweets.count;
+        // add an extra 'load more' cell when we have more than 15 tweets
+        if (tweets.count < Config.TWEET_COUNT) {
+            return tweets.count
+        } else {
+            return tweets.count + 1;
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if (indexPath.row == tweets.count && tweets.count == Config.TWEET_COUNT) {
+            return 54
+        }
         return 175
     }
     

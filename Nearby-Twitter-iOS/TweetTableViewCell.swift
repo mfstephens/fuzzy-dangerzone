@@ -18,6 +18,7 @@ class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate {
     @IBOutlet weak var tweetAuthor: UILabel!
     @IBOutlet weak var tweetLocation: UILabel!
     @IBOutlet weak var replyButton: UIButton!
+    @IBOutlet weak var tweetRelativeTime: UILabel!
     var tweetTextID : Double!
     var tweetAuthorID : Double!
     
