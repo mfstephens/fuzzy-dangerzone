@@ -18,14 +18,14 @@ struct AuthCredentials {
 }
 
 struct Config {
-    static let RADIUS = "5mi"
-    static let TWEET_COUNT = 10
+    static let RADIUS = "200mi"
+    static let TWEET_COUNT = 20
     static let GET_TWEETS_SINCE = "2014-09-01"
     static let RESULT_TYPE = "recent"
 }
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     let locationManager:CLLocationManager = CLLocationManager()
     let searchBarTop : UISearchBar = UISearchBar()
@@ -34,6 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var tweets : [JSONValue] = []
     var currentQuery : String = ""
     var currentLocation : CLLocation!
+    var mediaArray  = [[UIImageView]]()
     @IBOutlet var tableView: UITableView!
     
     required init(coder aDecoder: NSCoder) {
@@ -73,7 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let geocode = currentLocation.coordinate.latitude.description + "," + currentLocation.coordinate.longitude.description + "," + Config.RADIUS
         
-        swifter.getSearchTweetsWithQuery(currentQuery, geocode: geocode, lang: "en", locale: "en", resultType: Config.RESULT_TYPE, count: Config.TWEET_COUNT, until: "", sinceID: "", maxID: "", includeEntities: false, callback: "", success: { (statuses, searchMetadata) -> Void in
+        swifter.getSearchTweetsWithQuery(currentQuery, geocode: geocode, lang: "en", locale: "en", resultType: Config.RESULT_TYPE, count: Config.TWEET_COUNT, until: "", sinceID: "", maxID: "", includeEntities: true, callback: "", success: { (statuses, searchMetadata) -> Void in
             
             
             
@@ -111,6 +112,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             attributedAuthorName.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(17.0), range: NSMakeRange(0, nameLength))
             
             
+            // load other data
             cell.tweetAuthor.attributedText = attributedAuthorName
             cell.tweetText.text = tweets[indexPath.row]["text"].string!
             cell.tweetLocation.text = tweets[indexPath.row]["place"]["full_name"].string!
@@ -122,6 +124,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.profileImageView.image = imageURL
             cell.profileImageView.layer.cornerRadius = imageCornerRadius
             cell.profileImageView.clipsToBounds = true
+            
+            // check if we have any images. If so, load them into the cell
+            var tempArr : [UIImageView] = []
+            if let media = tweets[indexPath.row]["entities"]["media"].array? {
+                for m in media {
+                    let imageURL = UIImage(data: NSData(contentsOfURL: NSURL(string: m["media_url_https"].string!)!)!)
+                    let image = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.imageCollection.frame.size.width, height: 100))
+                    image.image = imageURL
+                    tempArr.append(image)
+                }
+            } else {
+//                cell.imageCollection.removeFromSuperview()
+            }
+            mediaArray.append(tempArr)
             
             // set relative date
             let calendar = NSCalendar.autoupdatingCurrentCalendar()
@@ -158,6 +174,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func tableView(tableView: UITableView, willDisplayCell cell: TweetTableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row == tweets.count && tweets.count == Config.TWEET_COUNT) {
+            return
+        }
+        cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, index: indexPath.row)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // add an extra 'load more' cell when we have more than 15 tweets
         if (tweets.count < Config.TWEET_COUNT) {
@@ -171,11 +194,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (indexPath.row == tweets.count && tweets.count == Config.TWEET_COUNT) {
             return 54
         }
-        return 175
+        if let media = tweets[indexPath.row]["entities"]["media"].array? {
+            return 300
+        } else {
+            return 175
+        }
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         searchBarTop.resignFirstResponder()
+    }
+    
+    //MARK: - UICollectionView
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let media = mediaArray[collectionView.tag] as Array
+        return media.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("CollectionViewCell", forIndexPath: indexPath) as UICollectionViewCell
+        
+        if (indexPath.row == tweets.count && tweets.count == Config.TWEET_COUNT) {
+            return cell
+        }
+
+        let media = mediaArray[collectionView.tag] as Array
+        cell.contentView.addSubview(media[indexPath.item] as UIImageView)
+
+        
+        return cell
     }
     
     

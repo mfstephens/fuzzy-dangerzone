@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate {
+class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate  {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var tweetText: UILabel!
@@ -19,6 +19,8 @@ class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate {
     @IBOutlet weak var tweetLocation: UILabel!
     @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var tweetRelativeTime: UILabel!
+    @IBOutlet weak var imageCollection: UICollectionView!
+    
     var tweetTextID : Double!
     var tweetAuthorID : Double!
     
@@ -30,6 +32,8 @@ class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.imageCollection.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "TweetCellIdentifier")
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -44,5 +48,14 @@ class TweetTableViewCell :  UITableViewCell, UIAlertViewDelegate {
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    func setCollectionViewDataSourceDelegate(dataSourceDelegate delegate: protocol<UICollectionViewDelegate,UICollectionViewDataSource>, index: NSInteger) {
+        self.imageCollection.dataSource = delegate
+        self.imageCollection.delegate = delegate
+        self.imageCollection.tag = index
+        self.imageCollection.reloadData()
+    }
+    
+
     
 }
